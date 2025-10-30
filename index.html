@@ -129,6 +129,10 @@
             color: var(--secondary);
         }
         
+        nav ul li a.active {
+            color: var(--secondary);
+        }
+        
         nav ul li a::after {
             content: '';
             position: absolute;
@@ -140,7 +144,8 @@
             transition: width 0.3s;
         }
         
-        nav ul li a:hover::after {
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
             width: 100%;
         }
         
@@ -666,6 +671,84 @@
             font-weight: 600;
             font-size: 0.8rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+        
+        /* Page Content */
+        .page-content {
+            display: none;
+            padding: 60px 0;
+        }
+        
+        .page-content.active {
+            display: block;
+        }
+        
+        .page-content h2 {
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .page-content p {
+            margin-bottom: 20px;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Booking Page */
+        .booking-page .booking-form {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .booking-page .form-group {
+            margin-bottom: 15px;
+        }
+        
+        /* Destinations Page */
+        .destinations-page .destinations-grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+        
+        /* Experiences Page */
+        .experiences-page {
+            background: linear-gradient(rgba(26, 58, 108, 0.8), rgba(26, 58, 108, 0.9)), url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            color: white;
+        }
+        
+        .experiences-page .section-title h2 {
+            color: white;
+        }
+        
+        .experiences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .experience-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .experience-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .experience-card h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .experience-card p {
+            color: #e9ecef;
         }
         
         /* Responsive Design */
@@ -735,6 +818,14 @@
             .booking-section {
                 padding: 30px 20px;
             }
+            
+            .destinations, .features, .testimonials, .offers {
+                padding: 60px 0;
+            }
+            
+            .booking-page .booking-form {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 576px) {
@@ -796,12 +887,12 @@
             
             <nav>
                 <ul>
-                    <li><a href="#" class="active">Home</a></li>
-                    <li><a href="#">Book Flight</a></li>
-                    <li><a href="#">Destinations</a></li>
-                    <li><a href="#">Experiences</a></li>
-                    <li><a href="#">Manage Booking</a></li>
-                    <li><a href="#">Deals</a></li>
+                    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="book-flight">Book Flight</a></li>
+                    <li><a href="#" class="nav-link" data-page="destinations">Destinations</a></li>
+                    <li><a href="#" class="nav-link" data-page="experiences">Experiences</a></li>
+                    <li><a href="#" class="nav-link" data-page="manage-booking">Manage Booking</a></li>
+                    <li><a href="#" class="nav-link" data-page="deals">Deals</a></li>
                 </ul>
             </nav>
             
@@ -812,250 +903,585 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container hero-content">
-            <h2>Experience the Sky in Luxury</h2>
-            <p>Discover the world with our premium services, comfortable flights, and exceptional hospitality that makes every journey memorable.</p>
-            <a href="#" class="btn">Book Now</a>
-            <a href="#" class="btn btn-outline">Explore Destinations</a>
-        </div>
-    </section>
+    <!-- Home Page -->
+    <div id="home-page" class="page-content active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-content">
+                <h2>Experience the Sky in Luxury</h2>
+                <p>Discover the world with our premium services, comfortable flights, and exceptional hospitality that makes every journey memorable.</p>
+                <a href="#" class="btn">Book Now</a>
+                <a href="#" class="btn btn-outline">Explore Destinations</a>
+            </div>
+        </section>
 
-    <!-- Booking Section -->
-    <section class="booking-section">
-        <div class="container">
-            <form class="booking-form">
-                <div class="form-group">
-                    <div class="trip-type">
-                        <label>
-                            <input type="radio" name="trip" checked> Round Trip
-                        </label>
-                        <label>
-                            <input type="radio" name="trip"> One Way
-                        </label>
+        <!-- Booking Section -->
+        <section class="booking-section">
+            <div class="container">
+                <form class="booking-form">
+                    <div class="form-group">
+                        <div class="trip-type">
+                            <label>
+                                <input type="radio" name="trip" checked> Round Trip
+                            </label>
+                            <label>
+                                <input type="radio" name="trip"> One Way
+                            </label>
+                        </div>
+                        <label for="from">From</label>
+                        <input type="text" id="from" class="form-control" placeholder="City or airport" required>
                     </div>
-                    <label for="from">From</label>
-                    <input type="text" id="from" class="form-control" placeholder="City or airport" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="to">To</label>
-                    <input type="text" id="to" class="form-control" placeholder="City or airport" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="depart">Departure</label>
-                    <input type="date" id="depart" class="form-control" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="return">Return</label>
-                    <input type="date" id="return" class="form-control" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="passengers">Passengers</label>
-                    <select id="passengers" class="form-control">
-                        <option>1 Passenger</option>
-                        <option>2 Passengers</option>
-                        <option>3 Passengers</option>
-                        <option>4 Passengers</option>
-                        <option>5+ Passengers</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="class">Class</label>
-                    <select id="class" class="form-control">
-                        <option>Economy</option>
-                        <option>Premium Economy</option>
-                        <option>Business</option>
-                        <option>First Class</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <button type="submit" class="search-btn-form">Search Flights</button>
-                </div>
-            </form>
-        </div>
-    </section>
+                    
+                    <div class="form-group">
+                        <label for="to">To</label>
+                        <input type="text" id="to" class="form-control" placeholder="City or airport" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="depart">Departure</label>
+                        <input type="date" id="depart" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="return">Return</label>
+                        <input type="date" id="return" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="passengers">Passengers</label>
+                        <select id="passengers" class="form-control">
+                            <option>1 Passenger</option>
+                            <option>2 Passengers</option>
+                            <option>3 Passengers</option>
+                            <option>4 Passengers</option>
+                            <option>5+ Passengers</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="class">Class</label>
+                        <select id="class" class="form-control">
+                            <option>Economy</option>
+                            <option>Premium Economy</option>
+                            <option>Business</option>
+                            <option>First Class</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="search-btn-form">Search Flights</button>
+                    </div>
+                </form>
+            </div>
+        </section>
 
-    <!-- Destinations Section -->
-    <section class="destinations">
+        <!-- Destinations Section -->
+        <section class="destinations">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Popular Destinations</h2>
+                    <p>Discover our most traveled routes and favorite destinations</p>
+                </div>
+                
+                <div class="destinations-grid">
+                    <div class="destination-card">
+                        <div class="luxury-badge">LUXURY</div>
+                        <div class="destination-img">
+                            <img src="https://images.unsplash.com/photo-1534168881138-65dd0d0a6e3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Dubai">
+                        </div>
+                        <div class="destination-content">
+                            <h3>Dubai, UAE</h3>
+                            <p>Experience the luxury of modern architecture and vibrant culture</p>
+                            <div class="price">$499 <span>Round Trip</span></div>
+                            <a href="#" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                    
+                    <div class="destination-card">
+                        <div class="luxury-badge">PREMIUM</div>
+                        <div class="destination-img">
+                            <img src="https://images.unsplash.com/photo-1561501900-3701fa6a0864?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="London">
+                        </div>
+                        <div class="destination-content">
+                            <h3>London, UK</h3>
+                            <p>Historic landmarks and cultural experiences await</p>
+                            <div class="price">$649 <span>Round Trip</span></div>
+                            <a href="#" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                    
+                    <div class="destination-card">
+                        <div class="luxury-badge">LUXURY</div>
+                        <div class="destination-img">
+                            <img src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Sydney">
+                        </div>
+                        <div class="destination-content">
+                            <h3>Sydney, Australia</h3>
+                            <p>Stunning beaches and iconic Opera House</p>
+                            <div class="price">$1,299 <span>Round Trip</span></div>
+                            <a href="#" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                    
+                    <div class="destination-card">
+                        <div class="luxury-badge">PREMIUM</div>
+                        <div class="destination-img">
+                            <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Tokyo">
+                        </div>
+                        <div class="destination-content">
+                            <h3>Tokyo, Japan</h3>
+                            <p>Blend of traditional culture and futuristic innovation</p>
+                            <div class="price">$999 <span>Round Trip</span></div>
+                            <a href="#" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Why Choose SkyWings</h2>
+                    <p>Our premium services ensure a comfortable and memorable journey</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <h3>Premium Aircraft</h3>
+                        <p>Modern fleet with the latest technology for a smooth and safe flight experience.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h3>Gourmet Dining</h3>
+                        <p>World-class cuisine prepared by renowned chefs with options for all dietary needs.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <h3>Luxury Seating</h3>
+                        <p>Spacious seats with maximum comfort, available in Economy, Business and First Class.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <h3>In-Flight Entertainment</h3>
+                        <p>Wide selection of movies, music, games and live TV on personal screens.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials">
+            <div class="container">
+                <div class="section-title">
+                    <h2>What Our Passengers Say</h2>
+                    <p>Real experiences from our valued customers</p>
+                </div>
+                
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"The level of service on SkyWings was exceptional. The staff was attentive, the food delicious, and the seats incredibly comfortable. Will definitely fly with them again!"</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-img">
+                                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Sarah Johnson">
+                            </div>
+                            <div class="author-info">
+                                <h4>Sarah Johnson</h4>
+                                <p>Business Class</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"I've flown with many airlines, but the attention to detail on SkyWings is unmatched. The in-flight entertainment system had every movie I wanted to watch."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-img">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen">
+                            </div>
+                            <div class="author-info">
+                                <h4>Michael Chen</h4>
+                                <p>First Class</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"The Dubai to London flight was smooth and comfortable. The crew was professional and friendly. The food was restaurant-quality. Highly recommended!"</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-img">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Emma Rodriguez">
+                            </div>
+                            <div class="author-info">
+                                <h4>Emma Rodriguez</h4>
+                                <p>Premium Economy</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Offers Section -->
+        <section class="offers">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Exclusive Offers</h2>
+                    <p>Luxury experiences at exceptional prices</p>
+                </div>
+                
+                <div class="offers-grid">
+                    <div class="offer-card">
+                        <h3>Summer Luxury Sale</h3>
+                        <p>Save up to 30% on selected routes to Europe and North America.</p>
+                        <div class="offer-price">From $449</div>
+                        <a href="#" class="btn">View Offer</a>
+                    </div>
+                    
+                    <div class="offer-card">
+                        <h3>Business Class Upgrade</h3>
+                        <p>Get 20% off business class bookings for a limited time.</p>
+                        <div class="offer-price">20% Off</div>
+                        <a href="#" class="btn">View Offer</a>
+                    </div>
+                    
+                    <div class="offer-card">
+                        <h3>Family Premium Package</h3>
+                        <p>Special rates for families traveling together with additional amenities.</p>
+                        <div class="offer-price">From $899</div>
+                        <a href="#" class="btn">View Offer</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Book Flight Page -->
+    <div id="book-flight-page" class="page-content">
         <div class="container">
-            <div class="section-title">
-                <h2>Popular Destinations</h2>
-                <p>Discover our most traveled routes and favorite destinations</p>
+            <h2>Book Your Flight</h2>
+            <p>Find the perfect flight for your journey with our easy-to-use booking system</p>
+            
+            <div class="booking-section">
+                <form class="booking-form">
+                    <div class="form-group">
+                        <div class="trip-type">
+                            <label>
+                                <input type="radio" name="trip" checked> Round Trip
+                            </label>
+                            <label>
+                                <input type="radio" name="trip"> One Way
+                            </label>
+                        </div>
+                        <label for="from">From</label>
+                        <input type="text" id="from" class="form-control" placeholder="City or airport" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="to">To</label>
+                        <input type="text" id="to" class="form-control" placeholder="City or airport" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="depart">Departure</label>
+                        <input type="date" id="depart" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="return">Return</label>
+                        <input type="date" id="return" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="passengers">Passengers</label>
+                        <select id="passengers" class="form-control">
+                            <option>1 Passenger</option>
+                            <option>2 Passengers</option>
+                            <option>3 Passengers</option>
+                            <option>4 Passengers</option>
+                            <option>5+ Passengers</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="class">Class</label>
+                        <select id="class" class="form-control">
+                            <option>Economy</option>
+                            <option>Premium Economy</option>
+                            <option>Business</option>
+                            <option>First Class</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="search-btn-form">Search Flights</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="section-title" style="margin-top: 60px;">
+                <h2>Popular Routes</h2>
+                <p>Discover our most traveled destinations</p>
             </div>
             
             <div class="destinations-grid">
                 <div class="destination-card">
-                    <div class="luxury-badge">LUXURY</div>
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1566647387313-9fda80c78f75?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="New York">
+                    </div>
+                    <div class="destination-content">
+                        <h3>New York, USA</h3>
+                        <p>From London: $649</p>
+                        <a href="#" class="btn">Book Now</a>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Tokyo">
+                    </div>
+                    <div class="destination-content">
+                        <h3>Tokyo, Japan</h3>
+                        <p>From Singapore: $599</p>
+                        <a href="#" class="btn">Book Now</a>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1583427053007-7d1d3d5c1b75?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Paris">
+                    </div>
+                    <div class="destination-content">
+                        <h3>Paris, France</h3>
+                        <p>From Dubai: $549</p>
+                        <a href="#" class="btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Destinations Page -->
+    <div id="destinations-page" class="page-content destinations-page">
+        <div class="container">
+            <div class="section-title">
+                <h2>Explore Our Destinations</h2>
+                <p>Discover the world with SkyWings Airlines</p>
+            </div>
+            
+            <div class="destinations-grid">
+                <div class="destination-card">
                     <div class="destination-img">
                         <img src="https://images.unsplash.com/photo-1534168881138-65dd0d0a6e3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Dubai">
                     </div>
                     <div class="destination-content">
                         <h3>Dubai, UAE</h3>
                         <p>Experience the luxury of modern architecture and vibrant culture</p>
-                        <div class="price">$499 <span>Round Trip</span></div>
-                        <a href="#" class="btn">Book Now</a>
+                        <a href="#" class="btn">Explore</a>
                     </div>
                 </div>
                 
                 <div class="destination-card">
-                    <div class="luxury-badge">PREMIUM</div>
                     <div class="destination-img">
                         <img src="https://images.unsplash.com/photo-1561501900-3701fa6a0864?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="London">
                     </div>
                     <div class="destination-content">
                         <h3>London, UK</h3>
                         <p>Historic landmarks and cultural experiences await</p>
-                        <div class="price">$649 <span>Round Trip</span></div>
-                        <a href="#" class="btn">Book Now</a>
+                        <a href="#" class="btn">Explore</a>
                     </div>
                 </div>
                 
                 <div class="destination-card">
-                    <div class="luxury-badge">LUXURY</div>
                     <div class="destination-img">
                         <img src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Sydney">
                     </div>
                     <div class="destination-content">
                         <h3>Sydney, Australia</h3>
                         <p>Stunning beaches and iconic Opera House</p>
-                        <div class="price">$1,299 <span>Round Trip</span></div>
-                        <a href="#" class="btn">Book Now</a>
+                        <a href="#" class="btn">Explore</a>
                     </div>
                 </div>
                 
                 <div class="destination-card">
-                    <div class="luxury-badge">PREMIUM</div>
                     <div class="destination-img">
                         <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Tokyo">
                     </div>
                     <div class="destination-content">
                         <h3>Tokyo, Japan</h3>
                         <p>Blend of traditional culture and futuristic innovation</p>
-                        <div class="price">$999 <span>Round Trip</span></div>
-                        <a href="#" class="btn">Book Now</a>
+                        <a href="#" class="btn">Explore</a>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1583427053007-7d1d3d5c1b75?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Paris">
+                    </div>
+                    <div class="destination-content">
+                        <h3>Paris, France</h3>
+                        <p>The city of lights and love</p>
+                        <a href="#" class="btn">Explore</a>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1566647387313-9fda80c78f75?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="New York">
+                    </div>
+                    <div class="destination-content">
+                        <h3>New York, USA</h3>
+                        <p>The city that never sleeps</p>
+                        <a href="#" class="btn">Explore</a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Features Section -->
-    <section class="features">
+    <!-- Experiences Page -->
+    <div id="experiences-page" class="page-content experiences-page">
         <div class="container">
             <div class="section-title">
-                <h2>Why Choose SkyWings</h2>
-                <p>Our premium services ensure a comfortable and memorable journey</p>
+                <h2>Our Premium Experiences</h2>
+                <p>Discover the luxury of flying with SkyWings</p>
             </div>
             
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-plane"></i>
-                    </div>
-                    <h3>Premium Aircraft</h3>
-                    <p>Modern fleet with the latest technology for a smooth and safe flight experience.</p>
+            <div class="experiences-grid">
+                <div class="experience-card">
+                    <h3>First Class</h3>
+                    <p>Experience ultimate luxury with our first-class service. Spacious private suites, gourmet dining, and personalized service make every journey unforgettable.</p>
+                    <a href="#" class="btn">Learn More</a>
                 </div>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <h3>Gourmet Dining</h3>
-                    <p>World-class cuisine prepared by renowned chefs with options for all dietary needs.</p>
+                <div class="experience-card">
+                    <h3>Business Class</h3>
+                    <p>Travel in comfort with our premium business class. Lie-flat seats, priority boarding, and exclusive lounge access make your journey productive and relaxing.</p>
+                    <a href="#" class="btn">Learn More</a>
                 </div>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bed"></i>
-                    </div>
-                    <h3>Luxury Seating</h3>
-                    <p>Spacious seats with maximum comfort, available in Economy, Business and First Class.</p>
+                <div class="experience-card">
+                    <h3>Premium Economy</h3>
+                    <p>Enhanced comfort with more legroom, premium meals, and priority check-in. The perfect balance of value and luxury.</p>
+                    <a href="#" class="btn">Learn More</a>
                 </div>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-wifi"></i>
-                    </div>
-                    <h3>In-Flight Entertainment</h3>
-                    <p>Wide selection of movies, music, games and live TV on personal screens.</p>
+                <div class="experience-card">
+                    <h3>In-Flight Dining</h3>
+                    <p>Enjoy world-class cuisine prepared by renowned chefs. Choose from a wide selection of international dishes tailored to your preferences.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+                
+                <div class="experience-card">
+                    <h3>Entertainment</h3>
+                    <p>Over 400 movies, TV shows, music, and games available on personal screens. Stay entertained throughout your journey.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+                
+                <div class="experience-card">
+                    <h3>Lounge Access</h3>
+                    <p>Relax in our exclusive lounges before your flight. Enjoy premium dining, comfortable seating, and dedicated workspaces.</p>
+                    <a href="#" class="btn">Learn More</a>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Testimonials -->
-    <section class="testimonials">
+    <!-- Manage Booking Page -->
+    <div id="manage-booking-page" class="page-content">
         <div class="container">
-            <div class="section-title">
-                <h2>What Our Passengers Say</h2>
-                <p>Real experiences from our valued customers</p>
+            <h2>Manage Your Booking</h2>
+            <p>Access, modify, or cancel your reservation</p>
+            
+            <div class="booking-section" style="max-width: 600px; margin: 40px auto;">
+                <h3 style="text-align: center; margin-bottom: 30px;">Enter Your Booking Reference</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="booking-ref">Booking Reference</label>
+                        <input type="text" id="booking-ref" class="form-control" placeholder="Enter your 6-digit reference" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" class="form-control" placeholder="Enter your last name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="search-btn-form">Retrieve Booking</button>
+                    </div>
+                </form>
             </div>
             
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <p>"The level of service on SkyWings was exceptional. The staff was attentive, the food delicious, and the seats incredibly comfortable. Will definitely fly with them again!"</p>
+            <div class="section-title" style="margin-top: 60px;">
+                <h2>Your Recent Bookings</h2>
+                <p>Quick access to your upcoming flights</p>
+            </div>
+            
+            <div class="destinations-grid">
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1561501900-3701fa6a0864?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="London">
                     </div>
-                    <div class="testimonial-author">
-                        <div class="author-img">
-                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Sarah Johnson">
-                        </div>
-                        <div class="author-info">
-                            <h4>Sarah Johnson</h4>
-                            <p>Business Class</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <p>"I've flown with many airlines, but the attention to detail on SkyWings is unmatched. The in-flight entertainment system had every movie I wanted to watch."</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-img">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen">
-                        </div>
-                        <div class="author-info">
-                            <h4>Michael Chen</h4>
-                            <p>First Class</p>
-                        </div>
+                    <div class="destination-content">
+                        <h3>London, UK</h3>
+                        <p>Departure: Dec 15, 2023</p>
+                        <p>Booking Ref: SKY789</p>
+                        <a href="#" class="btn">Manage</a>
                     </div>
                 </div>
                 
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <p>"The Dubai to London flight was smooth and comfortable. The crew was professional and friendly. The food was restaurant-quality. Highly recommended!"</p>
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Sydney">
                     </div>
-                    <div class="testimonial-author">
-                        <div class="author-img">
-                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Emma Rodriguez">
-                        </div>
-                        <div class="author-info">
-                            <h4>Emma Rodriguez</h4>
-                            <p>Premium Economy</p>
-                        </div>
+                    <div class="destination-content">
+                        <h3>Sydney, Australia</h3>
+                        <p>Departure: Jan 5, 2024</p>
+                        <p>Booking Ref: SKY123</p>
+                        <a href="#" class="btn">Manage</a>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Tokyo">
+                    </div>
+                    <div class="destination-content">
+                        <h3>Tokyo, Japan</h3>
+                        <p>Departure: Feb 20, 2024</p>
+                        <p>Booking Ref: SKY456</p>
+                        <a href="#" class="btn">Manage</a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Offers Section -->
-    <section class="offers">
+    <!-- Deals Page -->
+    <div id="deals-page" class="page-content">
         <div class="container">
-            <div class="section-title">
-                <h2>Exclusive Offers</h2>
-                <p>Luxury experiences at exceptional prices</p>
-            </div>
+            <h2>Special Offers & Deals</h2>
+            <p>Find exclusive deals and promotions for your next journey</p>
             
-            <div class="offers-grid">
+            <div class="offers-grid" style="margin-top: 40px;">
                 <div class="offer-card">
                     <h3>Summer Luxury Sale</h3>
                     <p>Save up to 30% on selected routes to Europe and North America.</p>
@@ -1076,9 +1502,70 @@
                     <div class="offer-price">From $899</div>
                     <a href="#" class="btn">View Offer</a>
                 </div>
+                
+                <div class="offer-card">
+                    <h3>Student Discount</h3>
+                    <p>25% off all economy flights for verified students.</p>
+                    <div class="offer-price">25% Off</div>
+                    <a href="#" class="btn">View Offer</a>
+                </div>
+                
+                <div class="offer-card">
+                    <h3>Early Bird Special</h3>
+                    <p>Book 3 months in advance and save 15% on all flights.</p>
+                    <div class="offer-price">15% Off</div>
+                    <a href="#" class="btn">View Offer</a>
+                </div>
+                
+                <div class="offer-card">
+                    <h3>Group Travel</h3>
+                    <p>Special rates for groups of 10 or more passengers.</p>
+                    <div class="offer-price">Up to 40% Off</div>
+                    <a href="#" class="btn">View Offer</a>
+                </div>
+            </div>
+            
+            <div class="section-title" style="margin-top: 60px;">
+                <h2>Partner Offers</h2>
+                <p>Exclusive deals from our partners</p>
+            </div>
+            
+            <div class="destinations-grid">
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1566647387313-9fda80c78f75?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Hotels">
+                    </div>
+                    <div class="destination-content">
+                        <h3>Hotel Partners</h3>
+                        <p>Book your flight and hotel together for up to 25% savings</p>
+                        <a href="#" class="btn">View Deals</a>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Car Rentals">
+                    </div>
+                    <div class="destination-content">
+                        <h3>Car Rentals</h3>
+                        <p>Save 20% on car rentals when booking with your flight</p>
+                        <a href="#" class="btn">View Deals</a>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1583427053007-7d1d3d5c1b75?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Travel Insurance">
+                    </div>
+                    <div class="destination-content">
+                        <h3>Travel Insurance</h3>
+                        <p>Comprehensive coverage at 30% off for SkyWings passengers</p>
+                        <a href="#" class="btn">View Deals</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -1098,11 +1585,11 @@
                 <div class="footer-col">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Book Flight</a></li>
-                        <li><a href="#">Manage Booking</a></li>
-                        <li><a href="#">Flight Status</a></li>
-                        <li><a href="#">Check-in</a></li>
+                        <li><a href="#" class="nav-link" data-page="home">Home</a></li>
+                        <li><a href="#" class="nav-link" data-page="book-flight">Book Flight</a></li>
+                        <li><a href="#" class="nav-link" data-page="destinations">Destinations</a></li>
+                        <li><a href="#" class="nav-link" data-page="experiences">Experiences</a></li>
+                        <li><a href="#" class="nav-link" data-page="manage-booking">Manage Booking</a></li>
                     </ul>
                 </div>
                 
@@ -1118,4 +1605,108 @@
                 </div>
                 
                 <div class="footer-col">
-                    <h4>Support
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Baggage Information</a></li>
+                        <li><a href="#">Special Assistance</a></li>
+                        <li><a href="#">Travel Insurance</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <div class="container">
+                <p>&copy; 2023 SkyWings Airlines. All rights reserved. | Designed with ❤️ for premium travel experiences</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active link
+                document.querySelectorAll('.nav-link').forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Get target page
+                const targetPage = this.getAttribute('data-page');
+                
+                // Hide all pages
+                document.querySelectorAll('.page-content').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Show target page
+                document.getElementById(`${targetPage}-page`).classList.add('active');
+                
+                // Close mobile menu if open
+                document.querySelector('nav').classList.remove('active');
+            });
+        });
+        
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('nav').classList.toggle('active');
+        });
+        
+        // Set min date for departure to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('depart').setAttribute('min', today);
+        
+        // Set return date to be after departure
+        document.getElementById('depart').addEventListener('change', function() {
+            document.getElementById('return').setAttribute('min', this.value);
+        });
+        
+        // Form submission
+        document.querySelectorAll('.booking-form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const from = document.getElementById('from').value;
+                const to = document.getElementById('to').value;
+                const depart = document.getElementById('depart').value;
+                
+                if(from && to && depart) {
+                    alert(`Searching flights from ${from} to ${to} on ${depart}...`);
+                    // In a real application, this would send the data to a server
+                } else {
+                    alert('Please fill in all required fields');
+                }
+            });
+        });
+        
+        // Initialize date fields to show today's date
+        window.onload = function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('depart').value = today;
+            
+            // Set return date to next day
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const tomorrowStr = tomorrow.toISOString().split('T')[0];
+            document.getElementById('return').value = tomorrowStr;
+            document.getElementById('return').setAttribute('min', today);
+        };
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (!nav.contains(event.target) && !menuBtn.contains(event.target) && nav.classList.contains('active')) {
+                nav.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
+
